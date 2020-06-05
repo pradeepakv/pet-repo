@@ -29,22 +29,23 @@ router.post(
 
 
 // Get All Pets
-router.get("/", async (req, res) => {
-  console.log("get pet data = "+req);
+router.get("/", async (req, res, next) => {
   try {
-    const pets = await Pet.find()
+    const pets = await Pet.find(req.body)
     res.json(pets)
   } catch (err) {
-    res.status(500).json({message: err.message})
+    next(err);
   }
 });
 
-router.delete("/", async (req, res) => {
+
+// Delete All Pets
+router.delete("/", async (req, res, next) => {
   try {
-    await res.pet.deleteOne();
+    await res.pet.deleteOne(req.body);
     res.json({ message: "Pet has been deleted" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
