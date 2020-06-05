@@ -5,6 +5,8 @@ const chaiAsPromised = require('chai-as-promised');
 
 const app = require('../app');
 const expect = chai.expect;
+var should = chai.should()
+//var assert = chai.assert
 
 chai.use(chaiAsPromised);
 
@@ -18,7 +20,7 @@ describe('functional - Pets', () => {
       colour: 'white'
     });
     expect(res.status).to.equal(400);
-    console.log("response c p ="+JSON.stringify(res));
+    //console.log("response c p ="+JSON.stringify(res));
     expect(res.body.message).to.equal('"name" is not allowed to be empty');
   });
 
@@ -29,7 +31,7 @@ describe('functional - Pets', () => {
       colour: 'white'
     });
     expect(res.status).to.equal(400);
-    console.log("response c p age="+JSON.stringify(res));
+    //console.log("response c p age="+JSON.stringify(res));
     expect(res.body.message).to.equal('"age" must be a number');
   });
 
@@ -56,6 +58,19 @@ describe('functional - Pets', () => {
     const res = await request(app).get('/pets').send(pet);
     console.log("response c p get="+JSON.stringify(res));
     expect(res.status).to.equal(200);
+  });
+
+  it('should fail retrieve a pet when all 3 properties are not present', async () => {
+    const pet = {
+      name: 'Dog',
+      age: 3,
+      colour: 'white'
+    };
+    const res = await request(app).get('/pets').send(pet);
+    pet.should.have.property('name');
+    pet.should.have.property('age');
+    pet.should.have.property('colour');
+    
   });
 
 

@@ -31,10 +31,7 @@ router.post(
 // Get All Pets
 router.get("/", async (req, res, next) => {
   try {
-    const pets = await Pet.find(req.body)
-    if(pets == null){
-      res.json({ message: "could not retrieve pet" });
-    }
+    const pets = await Pet.find(req.body);
     res.json(pets)
   } catch (err) {
     next(err);
@@ -46,6 +43,8 @@ router.get("/", async (req, res, next) => {
 router.delete("/", async (req, res, next) => {
   try {
     await res.pet.deleteOne(req.body);
+    console.log("req c p delete1="+JSON.stringify(req));
+    console.log("req c p delete2="+JSON.stringify(res));
     res.json({ message: "Pet has been deleted" });
   } catch (err) {
     next(err);
