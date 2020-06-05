@@ -28,11 +28,6 @@ router.post(
 );
 
 
-/*router.get('/', async (req, res) => {
-  res.json(req.body);
-  res.send('Get Pets');
-})*/
-
 // Get All Pets
 router.get("/", async (req, res) => {
   console.log("get pet data = "+req);
