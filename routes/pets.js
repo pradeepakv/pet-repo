@@ -32,6 +32,9 @@ router.post(
 router.get("/", async (req, res, next) => {
   try {
     const pets = await Pet.find(req.body)
+    if(pets == null){
+      res.json({ message: "could not retrieve pet" });
+    }
     res.json(pets)
   } catch (err) {
     next(err);
