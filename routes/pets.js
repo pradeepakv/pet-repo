@@ -11,10 +11,10 @@ router.post(
   validateBody(Joi.object().keys({
     name: Joi.string().required().description('Pets name'),
     age: Joi.number().integer().required().description('Pets age'),
-    colour: Joi.string().required().description('Pets colour'),
+    colour: Joi.string().required().description('Pets colour')
   }),
   {
-    stripUnknown: true, // not validated array items are removed
+    stripUnknown: true // not validated array items are removed
   }),
   async (req, res, next) => {
     try {
@@ -29,9 +29,19 @@ router.post(
 
 
 // Get All Pets
-router.get("/", async (req, res, next) => {
+router.get(
+  '/',
+  validateBody(Joi.object().keys({
+    name: Joi.string().required().description('Pets name'),
+    age: Joi.number().integer().required().description('Pets age'),
+    colour: Joi.string().required().description('Pets colour')
+  }),
+  {
+    stripUnknown: true // not validated array items are removed
+  }),
+  async (req, res, next) => {
   try {
-    const pets = await Pet.find(req.body);
+    const pets = await Pet.find();
     res.json(pets)
   } catch (err) {
     next(err);
@@ -40,15 +50,13 @@ router.get("/", async (req, res, next) => {
 
 
 // Delete All Pets
-router.delete("/", async (req, res, next) => {
+router.delete('/:id', async (req, res) => {
   try {
-    await res.pet.deleteOne(req.body);
-    console.log("req c p delete1="+JSON.stringify(req));
-    console.log("req c p delete2="+JSON.stringify(res));
-    res.json({ message: "Pet has been deleted" });
+    const pet = await Pet.findByIdAndDelete(req.params.id);
+    if (!pet) res.status(404).send("No Pet item found");
+    res.status(200).send()
   } catch (err) {
-    next(err);
+    res.status(500).send(err)
   }
-});
-
+})
 module.exports = router;

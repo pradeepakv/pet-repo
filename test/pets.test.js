@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 describe('functional - Pets', () => {
 
-
+  // CREATE PET - should fail to create a pet without a name
   it('should fail to create a pet without a name', async () => {
     const res = await request(app).post('/pets').send({
       name: '',
@@ -24,6 +24,7 @@ describe('functional - Pets', () => {
     expect(res.body.message).to.equal('"name" is not allowed to be empty');
   });
 
+  // CREATE PET - should fail to create a pet when age is not a number
   it('should fail to create a pet when age is not a number', async () => {
     const res = await request(app).post('/pets').send({
       name: 'Dog',
@@ -31,11 +32,11 @@ describe('functional - Pets', () => {
       colour: 'white'
     });
     expect(res.status).to.equal(400);
-    //console.log("response c p age="+JSON.stringify(res));
     expect(res.body.message).to.equal('"age" must be a number');
   });
 
-  it('should create a pet', async () => {
+  // CREATE PET - should create a pet Successfully
+  it('should create a pet ', async () => {
     const pet = {
       name: 'Dog',
       age: 2,
@@ -48,7 +49,7 @@ describe('functional - Pets', () => {
     expect(res.body.colour).to.equal(pet.colour);
   });
 
-
+ // GET PET - should retrieve a pet
   it('should retrieve a pet', async () => {
     const pet = {
       name: 'Dog',
@@ -60,21 +61,19 @@ describe('functional - Pets', () => {
     expect(res.status).to.equal(200);
   });
 
-  it('should fail retrieve a pet when all 3 properties are not present', async () => {
+
+ // GET PET - Add a negative test while adding pet without color
+  it('should fail to retrieve a pet when all 3 properties are not present', async () => {
     const pet = {
       name: 'Dog',
-      age: 3,
-      colour: 'white'
+      age: 3
     };
     const res = await request(app).get('/pets').send(pet);
-    pet.should.have.property('name');
-    pet.should.have.property('age');
-    pet.should.have.property('colour');
-    
+    expect(res.status).to.equal(400);
+    expect(res.body.message).to.equal('"colour" is required');
   });
 
-
-
+  // DELETE PET - should remove a pet
   it('should remove a pet', async () => {
     const pet = {
       name: 'Dog',
