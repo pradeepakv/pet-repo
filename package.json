@@ -1,0 +1,24 @@
+{
+  "name": "coding-node",
+  "version": "0.0.1",
+  "description": "Skeleton project for nodejs based coding interviews",
+  "main": "app.js",
+  "scripts": {
+    "start": "node bin/start.js",
+    "tests": "mocha test/**/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^7.1.2",
+    "mongodb-memory-server": "^6.6.0",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.14"
+  }
+}
